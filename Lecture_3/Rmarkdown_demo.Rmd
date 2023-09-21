@@ -1,0 +1,64 @@
+---
+title: "Rmarkdown_demo"
+author: "Tianyi Wu"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Heading 1
+
+## R Markdown (Heading 2)
+
+### Heading 3
+
+#### Heading 4
+
+##### Heading 5
+
+Text
+
+## 
+
+## Add code to your document
+
+```{r}
+2 + 2
+```
+
+## Output figures
+
+```{r}
+plot(1:10, 1:10)
+```
+
+## Display data
+
+```{r}
+cars
+# It is one of the default data package in R
+```
+
+## In-line R code
+
+```{r}
+#Scientific research shows that
+12345+54321
+```
+
+"Scientific research shows that `r 12345+54321` "
+
+"Current R version `r getRversion()`"
+
+## Install the tinytex package
+
+```{r}
+# install.packages('tinytex')
+# tinytex::install_tinytex()
+```
