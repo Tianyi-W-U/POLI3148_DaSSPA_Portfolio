@@ -9,7 +9,6 @@ output:
 ---
 
 (This is a test message for lecture 4 alternative sync function.)
-(Test again.)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
