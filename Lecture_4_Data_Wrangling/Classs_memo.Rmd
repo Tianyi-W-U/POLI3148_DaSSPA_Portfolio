@@ -1,0 +1,16 @@
+---
+title: "Class_memo"
+author: "Tianyi Wu"
+date: "2023-09-28"
+output: html_document
+---
+
+# Create directories
+dir.create("Lecture_4_Data_Wrangling/data")
+dir.create("Lecture_4_Data_Wrangling/data/raw_data")
+dir.create("Lecture_4_Data_Wrangling/data/processed_data")
+dir.create("Lecture_4_Data_Wrangling/data/meta_data")
+dir.create("Lecture_4_Data_Wrangling/Rmd")
+dir.create("Lecture_4_Data_Wrangling/scripts")
+dir.create("Lecture_4_Data_Wrangling/output")
+dir.create("Lecture_4_Data_Wrangling/output/figures")
