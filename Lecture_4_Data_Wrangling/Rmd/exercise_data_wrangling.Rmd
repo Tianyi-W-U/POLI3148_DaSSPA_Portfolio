@@ -32,6 +32,12 @@ e_peedgini: 1850-2010
 
 ## What are their sources? Provide the link to least 1 source.
 
+e_peaveduc:
+
+<https://clio-infra.eu/Indicators/AverageYearsofEducation.html>
+
+<https://clio-infra.eu/Indicators/EducationalInequalityGiniCoefficient.html>
+
 # **Subset by columns**
 
 ## Create a dataset containing only the country-year identifiers and indicators of education quality.
@@ -67,7 +73,22 @@ d_edu |>
 Check data availability: For which countries and years are the indicators of education quality available?
 
 ```{r}
+# Can use summarise function
+d_edu |>
+  group_by(Country) |>
+  count()
 
+d_edu |>
+  group_by(Year) |>
+  count()
 ```
 
 Create two types of country-level indicators of education quality
+
+```         
+1.  Average level of education quality from 1984 to 2022
+
+2.  Change of education quality from 1984 to 2022
+```
+
+Examine the data and *briefly* discuss: Which countries perform the best and the worst in terms of education quality in the past four decades?

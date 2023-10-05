@@ -237,6 +237,15 @@ d_gdp |> arrange (-GDP_per_capita) #Add a "-"
     2.  Magnitude of growth from 1984 to 2022.
 
 ```{r}
+# Data integrity check
+d_gdp |>
+  # Create a column that indicates whether the value is missing
+  mutate(GDP_missing = as.numeric(is.na(GDP)), .after = GDP) |>
+  group_by(Country) |>
+  summarise (N_GDP_missing = sum (GDP_missing))
+```
+
+```{r}
 # Want: for each country, the year with the highest GDP
 d_gdp |> 
   group_by(Country) |> # The group_by function does not affect the dataset itself
@@ -283,4 +292,51 @@ d_gdp |>
 d_gdp |>
   group_by(Country) |>
   mutate(GDP_over_own = GDP/mean(GDP, na.rm = TRUE))
+```
+
+```{r}
+# Country-year development level with reference to that of 1984
+d_gdp |>
+  group_by(Country) |>
+  arrange (Year) |>
+  mutate(GDP_per_capita / first(GDP)) |> #first()
+  ungroup() |> #ungroup()
+  arrange (Country, Year)
+```
+
+```{r}
+# Count the change of GDP
+# ?lag
+
+d_gdp |>
+  group_by(Country) |>
+  arrange(Year) |>
+  mutate(GDP_yoy_change = GDP - lag(GDP, n = 1)) |>
+  ungroup() |>
+  arrange(Country, Year)
+```
+
+### 9. Summarize the data: group_by, summarise, ungroup
+
+```{r}
+# Want: Average GDP level of the world
+d_gdp |> summarise(gdp_average = mean (GDP, na.rm = TRUE), gdp_per_capita_average = mean (GDP_per_capita, na.rm =TRUE))
+```
+
+```{r}
+#Want: Average GDP level of each country
+d_gdp |> 
+  group_by(Country) |>
+  summarise(gdp_average = mean (GDP, na.rm = TRUE), gdp_per_capita_average = mean (GDP_per_capita, na.rm =TRUE))
+```
+
+```{r}
+# GDP growth and GDP per capita growth: 2019 over 1984
+d_gdp |>
+  filter (Year >= 1984 & Year <= 2019) |>
+  arrange (Year) |>
+  group_by(Country) |>
+  summarise (GDP_growth_2019_1984 = (last(GDP) - first(GDP)) / first(GDP), GDPpc_growth_2019_1984 = (last(GDP_per_capita) - first(GDP_per_capita)) / first(GDP_per_capita)) |>
+  ungroup() |>
+  arrange(Country)
 ```
