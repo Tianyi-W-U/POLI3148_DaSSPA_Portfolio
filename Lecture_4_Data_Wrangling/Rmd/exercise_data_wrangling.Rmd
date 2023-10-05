@@ -1,0 +1,73 @@
+---
+# title: "exercise data wrangling"
+# author: "Tianyi Wu"
+# date: "2023-09-30"
+#output: html_document
+#editor_options: 
+  #chunk_output_type: console
+editor_options: 
+  chunk_output_type: inline
+---
+
+# Housekeeping
+
+```{r}
+library("tidyverse")
+d <- read.csv("_DataPublic_/vdem/1984_2022/vdem_1984_2022_external.csv")
+```
+
+# **Codebook lookup**:
+
+## Indicators regarding the quality of education
+
+Education 15+ (E) (e_peaveduc)
+
+Educational inequality, Gini (E) (e_peedgini)
+
+## What are the data's coverage (i.e., for which countries and years do we have data?)
+
+e_peaveduc: 1820-2022
+
+e_peedgini: 1850-2010
+
+## What are their sources? Provide the link to least 1 source.
+
+# **Subset by columns**
+
+## Create a dataset containing only the country-year identifiers and indicators of education quality.
+
+```{r}
+d_edu <- d |> select(country_name, year, e_peaveduc, e_peedgini)
+```
+
+Rename the columns of education quality to make them informative.
+
+```{r}
+d_edu <- d_edu |> rename ("Country"="country_name", "Year"="year", "Edu15P"="e_peaveduc", "EduIne"="e_peedgini")
+```
+
+# **Subset by rows**
+
+List 5 countries-years that have the highest education level among its population.
+
+```{r}
+d_edu |>
+  slice_max(order_by = Edu15P, n = 5)
+```
+
+List 5 countries-years that suffer from the most severe inequality in education.
+
+```{r}
+d_edu |>
+  slice_max (order_by = EduIne, n=5)
+```
+
+# **Summarize the data**
+
+Check data availability: For which countries and years are the indicators of education quality available?
+
+```{r}
+
+```
+
+Create two types of country-level indicators of education quality
