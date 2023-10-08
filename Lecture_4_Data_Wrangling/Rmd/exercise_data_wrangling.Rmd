@@ -139,20 +139,28 @@ d_edu |>
 Which countries perform the best and the worst in terms of education quality in the past four decades?
 
 ```{r}
-d_edu |>
+country_Edu15P <- d_edu |>
   group_by(Country) |>
   summarise (Edu15P_mean = mean (Edu15P)) |>
   arrange(Edu15P_mean)
+country_Edu15P
+
+country_Edu15P |> slice_max (order_by = Edu15P_mean, n =1)
+country_Edu15P |> slice_min (order_by = Edu15P_mean, n =1)
 ```
 
 Burkina Faso performs the worst while Germany performs the best in terms of education level 15+.
 
 ```{r}
-d_edu |>
+Country_EduIne <- d_edu |>
   filter (Year >= 1984 & Year <= 2010)|>
   group_by(Country) |>
   summarise (EduIne_mean = mean (EduIne)) |>
   arrange(EduIne_mean)
+Country_EduIne
+
+Country_EduIne |> slice_max (order_by = EduIne_mean, n =1)
+Country_EduIne |> slice_min (order_by = EduIne_mean, n =1)
 ```
 
 Burkina Faso performs the worst while Austria performs the best in terms of education inequality.
