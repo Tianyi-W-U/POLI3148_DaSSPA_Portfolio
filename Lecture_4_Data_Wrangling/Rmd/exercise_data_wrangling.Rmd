@@ -149,7 +149,7 @@ d_edu |>
   filter (Year >= 1984 & Year <= 2010)|>
   group_by(Country) |>
   summarise (EduIne_mean = mean (EduIne)) |>
-  arrange(EduIne_mean, na.rm = TRUE)
+  arrange(EduIne_mean)
 ```
 
 Burkina Faso performs the worst while Austria performs the best in terms of education inequality.
