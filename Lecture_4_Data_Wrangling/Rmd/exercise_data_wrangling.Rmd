@@ -36,6 +36,8 @@ e_peaveduc:
 
 <https://clio-infra.eu/Indicators/AverageYearsofEducation.html>
 
+e_peedgini:
+
 <https://clio-infra.eu/Indicators/EducationalInequalityGiniCoefficient.html>
 
 # **Subset by columns**
@@ -70,7 +72,9 @@ d_edu |>
 
 # **Summarize the data**
 
-Check data availability: For which countries and years are the indicators of education quality available?
+## Check data availability
+
+## For which countries and years are the indicators of education quality available?
 
 ```{r}
 # For which countries are the indicators of education quality available
@@ -88,7 +92,7 @@ d_edu |>
   summarise(N_Edu15P_missing = sum(Edu15P_missing), N_EduIne_missing = sum(EduIne_missing))
 ```
 
-Create two types of country-level indicators of education quality
+## Create two types of country-level indicators of education quality
 
 ```         
 1.  Average level of education quality from 1984 to 2022
@@ -132,7 +136,9 @@ d_edu |>
   arrange(Country, Year)
 ```
 
-Examine the data and *briefly* discuss: Which countries perform the best and the worst in terms of education quality in the past four decades?
+## Examine the data and *briefly* discuss
+
+Which countries perform the best and the worst in terms of education quality in the past four decades?
 
 ```{r}
 d_edu |>
