@@ -73,14 +73,19 @@ d_edu |>
 Check data availability: For which countries and years are the indicators of education quality available?
 
 ```{r}
-# Can use summarise function
+# For which countries are the indicators of education quality available
 d_edu |>
-  group_by(Country) |>
-  count()
+  mutate(Edu15P_missing = as.numeric(is.na(Edu15P)), EduIne_missing = as.numeric(is.na(EduIne))) |>
+  group_by(Country)|>
+  summarise(N_Edu15P_missing = sum(Edu15P_missing), N_EduIne_missing = sum(EduIne_missing))
+```
 
+```{r}
+# For which years are the indicators of education quality available
 d_edu |>
-  group_by(Year) |>
-  count()
+  mutate(Edu15P_missing = as.numeric(is.na(Edu15P)), .after= Edu15P, EduIne_missing = as.numeric(is.na(EduIne))) |>
+  group_by(Year)|>
+  summarise(N_Edu15P_missing = sum(Edu15P_missing), N_EduIne_missing = sum(EduIne_missing))
 ```
 
 Create two types of country-level indicators of education quality
@@ -91,4 +96,59 @@ Create two types of country-level indicators of education quality
 2.  Change of education quality from 1984 to 2022
 ```
 
+```{r}
+# Calculate the average level of education quality
+# Edu15P: from 1984-2022
+# EduIne: from 1984-2010 (Seen the available time range in codebook)
+d_edu |>
+  group_by(Country)|>
+  summarise(Edu15P_average = mean (Edu15P, na.rm = TRUE), EduIne_average = mean (EduIne, na.rm = TRUE))
+```
+
+```{r}
+# Calculate the change of education quality (overall)
+# Edu15P: from 1984-2022
+# EduIne: from 1984-2010 (Seen the available time range in codebook)
+d_edu |>
+  group_by(Country) |>
+  arrange(Year) |>
+  summarise(Change_Edu15P = last(Edu15P) - first(Edu15P))
+
+d_edu |>
+  filter (Year >= 1984 & Year <=2010) |>
+  group_by(Country) |>
+  arrange(Year) |>
+  summarise(Change_EduIne = last(EduIne) - first(EduIne))
+```
+
+```{r}
+# Calculate the change of education quality (year-over-year)
+d_edu |>
+  group_by(Country) |>
+  arrange(Year) |>
+  mutate (Edu15P_yoy_change = Edu15P - lag(Edu15P, n=1), .after = Edu15P) |>
+  mutate (EduIne_yoy_change = EduIne - lag(EduIne, n=1), .after = EduIne) |>
+  ungroup() |>
+  arrange(Country, Year)
+```
+
 Examine the data and *briefly* discuss: Which countries perform the best and the worst in terms of education quality in the past four decades?
+
+```{r}
+d_edu |>
+  group_by(Country) |>
+  summarise (Edu15P_mean = mean (Edu15P)) |>
+  arrange(Edu15P_mean)
+```
+
+Burkina Faso performs the worst while Germany performs the best in terms of education level 15+.
+
+```{r}
+d_edu |>
+  filter (Year >= 1984 & Year <= 2010)|>
+  group_by(Country) |>
+  summarise (EduIne_mean = mean (EduIne)) |>
+  arrange(EduIne_mean, na.rm = TRUE)
+```
+
+Burkina Faso performs the worst while Austria performs the best in terms of education inequality.
