@@ -110,6 +110,17 @@ d_edu |>
 ```
 
 ```{r}
+# Calculate the change of education quality (year-over-year)
+d_edu |>
+  group_by(Country) |>
+  arrange(Year) |>
+  mutate (Edu15P_yoy_change = Edu15P - lag(Edu15P, n=1), .after = Edu15P) |>
+  mutate (EduIne_yoy_change = EduIne - lag(EduIne, n=1), .after = EduIne) |>
+  ungroup() |>
+  arrange(Country, Year)
+```
+
+```{r}
 # Calculate the change of education quality (overall)
 # Edu15P: from 1984-2022
 # EduIne: from 1984-2010 (Seen the available time range in codebook)
@@ -123,17 +134,6 @@ d_edu |>
   group_by(Country) |>
   arrange(Year) |>
   summarise(Change_EduIne = last(EduIne) - first(EduIne))
-```
-
-```{r}
-# Calculate the change of education quality (year-over-year)
-d_edu |>
-  group_by(Country) |>
-  arrange(Year) |>
-  mutate (Edu15P_yoy_change = Edu15P - lag(Edu15P, n=1), .after = Edu15P) |>
-  mutate (EduIne_yoy_change = EduIne - lag(EduIne, n=1), .after = EduIne) |>
-  ungroup() |>
-  arrange(Country, Year)
 ```
 
 ## Examine the data and *briefly* discuss
