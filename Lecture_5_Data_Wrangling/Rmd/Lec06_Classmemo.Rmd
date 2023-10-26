@@ -8,7 +8,7 @@ output:
   md_document: default
 knit: (function(inputFile, encoding){rmarkdown::render(inputFile, encoding = encoding, output_format = "all", knit_root_dir = getwd())})
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 ## Objective
@@ -62,14 +62,22 @@ d |> select(country_name, year)
 d_subset <- d |> select(country_name, year, starts_with("e_"))
 
 d_subset_long <-
-  d_subset |> pivot_longer(cols = starts_with("e_"))
-d_subset_long
+  d_subset |> pivot_longer(cols = starts_with("e_"), names_to = "variable", values_to = "value")
+d_subset_long |> print (n=3)
 ```
 
 ```{r}
 d_subset_wide_year <-
   d_subset_long |> pivot_wider(names_from = year, values_from = value)
 ```
+
+#### Why reshape data?
+
+-   For data cleaning
+
+-   For data visualization
+
+-   For data sharing
 
 ### 2. Stack multiple subsets of the V-Dem datasets
 
@@ -81,6 +89,10 @@ d_VdemIndex <- read.csv("_DataPublic_/vdem/1984_2022/vdem_1984_2022_index.csv")
 d_stack <- bind_cols(d, d_VdemIndex)
 names(d_stack)
 ```
+
+#### Prerequisite of bind_cols
+
+Have the same rows
 
 ```{r}
 d_Vdem1945 <- read.csv("_DataPublic_/vdem/1945_1983/vdem_1945_1983_external.csv")
@@ -94,6 +106,14 @@ d_1945_2022 |>
   distinct() |>
   arrange(year)
 ```
+
+#### What if bind_rows two dataset with different columns?
+
+The extra column would become NA for the empty dataset.
+
+#### Comparison
+
+bind_rows more safer than bind_cols
 
 ### 3. Join multiple regional subsets of the V-Dem datasets
 
